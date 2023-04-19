@@ -1,8 +1,7 @@
 FROM debian:buster
 
 # Update and Upgrade packages | -y to accept everything
-RUN apt-get update -y
-RUN apt-get upgrade -y
+RUN apt-get update -y && apt-get upgrade -y
 
 # Install Curl (Client url)
 RUN apt-get install -y curl less
@@ -16,25 +15,26 @@ RUN apt-get install -y php-fpm
 
 # Install MYSQL
 RUN apt-get install -y php-mysql
+
 # Improved driver
 RUN apt-get install -y php-mysqli
 
 # Install mariadb client to connect to the database
 RUN apt-get install -y mariadb-client
 
-# DOWNLOAD WP-CLI FROM GITHUB && DEFINE WP-CLI TO EXECUTABLE
+# Download WP-CLI and set execution permission
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 &&		chmod +x wp-cli.phar \
 &&		mv wp-cli.phar /usr/local/bin/wp
 
 
-# CREATE DIRECTORY TO INSTALL WORDPRESS
+# Create wordpress installation directory
 RUN mkdir -p /var/www/html/wordpress
 
-# COPY SH FILE IN TMP DIRECTORY
+# Copy install script to /tmp
 COPY	/tools/launch_wordpress.sh /tmp
 
-# COPY OUR CONF FILE IN OUR CONTAINER
+# Copy configuration file
 COPY	/tools/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 EXPOSE 9000
@@ -46,6 +46,5 @@ RUN apt-get install -y dumb-init
 
 # CMD command will be passed as argument to ENTRYPOINT
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-
 
 CMD ["sh", "/tmp/launch_wordpress.sh"]
