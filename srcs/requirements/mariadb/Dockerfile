@@ -16,7 +16,7 @@ RUN chown -R mysql:mysql /var/run/mysql
 
 # Start mysql and create database
 RUN service mysql start && mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE; \
-    ALTER USER 'root'@'localhost' IDENTIFIED BY 'DB_ROOT_PASSWORD'; \
+    ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASSWORD'; \
     GRANT ALL PRIVILEGES ON $DB_DATABASE.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASSWORD'; \
     FLUSH PRIVILEGES;"
     
