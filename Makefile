@@ -38,16 +38,12 @@ down:
 # --volumes = remove any volume
 # --remove-orphans = remove any container unused by docker-compose file
 
-ps:
-	@echo "$(_GREEN)List running containers$(_END)"
+ls:
+	@echo "$(_GREEN)------------------------List running containers-------------------------$(_END)"
 	$(DOCKER_COMPOSE) ps
-
-images:
-	@echo "$(_GREEN)List images$(_END)"
+	@echo "$(_GREEN)------------------------------List images-------------------------------$(_END)"
 	docker images
-
-volume:
-	@echo "$(_GREEN)List volumes$(_END)"
+	@echo "$(_GREEN)------------------------------List volumes------------------------------$(_END)"
 	docker volume ls
 
 clean: down
@@ -55,7 +51,7 @@ clean: down
 fclean: clean
 	@echo "$(_GREEN)Removes images, containers and volumes$(_END)"
 	sudo rm -rf /home/$(USER)/data/wordpress/*
-	sudo rm -rf /home/$(USER)/data/mariadb/*
+	sudo rm -rf /home/$(USER)/data/mysql/*
 
 prune: fclean
 	@echo "$(_GREEN)Removes all unused images, containers, networks and volumes$(_END)"
@@ -65,4 +61,4 @@ prune: fclean
 
 re: fclean all
 
-.PHONY: all build start restart stop down ps images volume clean fclean prune re
+.PHONY: all build up start restart stop down ls clean fclean prune re
