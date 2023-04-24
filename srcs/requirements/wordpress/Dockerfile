@@ -35,7 +35,7 @@ RUN mkdir -p /var/www/html/wordpress
 COPY	/tools/launch_wordpress.sh /tmp
 
 # Copy configuration file
-COPY	/tools/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY	/conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 
 EXPOSE 9000
 
